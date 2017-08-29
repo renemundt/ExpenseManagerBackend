@@ -1,0 +1,21 @@
+{
+  "name": "expense-manager-backend",
+  "version": "0.0.0",
+  "description": "Exposes a REST api for Expense Manager data stored in MongoDb",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "René Mundt",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.7"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+
+}
