@@ -10,5 +10,5 @@ var router = express.Router()
 expenseHandler(router)
 app.use('/api', router)
 
-var port = process.env.port || 8666
+var port = process.env.PORT || 8666
 app.listen(port)
