@@ -3,6 +3,7 @@ module.exports = (router) => {
     var bodyParser = require('body-parser')
     var mongoose = require('mongoose')
     var Expense = require('./models/expense')
+    var ModelMapper = require('./model-mapper')
 
     mongoose.Promise = require('bluebird')
 
@@ -26,7 +27,7 @@ module.exports = (router) => {
             Expense.find((err, expenses) => {
                 if (err)
                     res.send(err)
-                res.json(expenses)
+                res.json(ModelMapper.MapExpenses(expenses))
             })
         })
 
@@ -51,7 +52,7 @@ module.exports = (router) => {
             Expense.findById(req.params.expense_id, (err, expense) => {
                 if (err)
                     res.send(err)
-                res.json(expense)
+                res.json(ModelMapper.MapExpense(expense))
             })
         })
 
