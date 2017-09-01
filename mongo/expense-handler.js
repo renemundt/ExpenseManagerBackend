@@ -30,7 +30,7 @@ module.exports = (router) => {
             Expense.find((err, expenses) => {
                 if (err)
                     res.send(err)
-                res.json(ModelMapper.mapExpenses(expenses))
+                res.json(ModelMapper.MapExpenses(expenses))
             })
         })
 
