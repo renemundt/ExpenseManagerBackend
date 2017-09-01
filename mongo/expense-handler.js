@@ -1,14 +1,15 @@
-module.exports = (router) => {
+var bodyParser = require('body-parser')
+var mongoose = require('mongoose')
+var Expense = require('./models/expense')
+var ModelMapper = require('./model-mapper')
+var Expenses = require('./expenses')
 
-    var bodyParser = require('body-parser')
-    var mongoose = require('mongoose')
-    var Expense = require('./models/expense')
-    var ModelMapper = require('./model-mapper')
+module.exports = (router) => {
 
     mongoose.Promise = require('bluebird')
 
-    mongoose.connect('mongodb://em_user:pwd4Mlab@ds119524.mlab.com:19524/expense-manager')
-    // mongoose.connect('mongodb://localhost/expense-manager')
+    // mongoose.connect('mongodb://em_user:pwd4Mlab@ds119524.mlab.com:19524/expense-manager')
+    mongoose.connect('mongodb://localhost/expense-manager')
 
     var db = mongoose.connection
 
@@ -16,9 +17,7 @@ module.exports = (router) => {
     db.once('open', () => {
         // we are connected
     })
-// user     : ""em_user
-// password : "+>GqX3r,H3zQex>p"
-// mongodb://<dbuser>:<dbpassword>@ds119524.mlab.com:19524/expense-manager
+
     router.use((req, res, next) => {
         console.log('route: ', req.originalUrl)
         next()
@@ -27,10 +26,9 @@ module.exports = (router) => {
     router.route('/expenses')
 
         .get((req, res) => {
-            Expense.find((err, expenses) => {
-                if (err)
-                    res.send(err)
-                res.json(ModelMapper.MapExpenses(expenses))
+            Expenses.GetAllExpenses((err, expenses) => {
+                if (err) res.send(err)
+                res.json(expenses)
             })
         })
 

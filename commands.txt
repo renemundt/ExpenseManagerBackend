@@ -1,0 +1,5 @@
+heroku ps:scale web=1
+heroku open
+
+git push -u origin master
+git push heroku master
