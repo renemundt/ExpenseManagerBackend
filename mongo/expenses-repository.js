@@ -18,26 +18,23 @@ db.once('open', () => {
 
 module.exports = {
 
-    GetAllExpenses: (callback) => {
-        Expense.find((err, expenses) => {
-            if (err) return callback(err, null)
-            callback(null, ModelMapper.MapExpenses(expenses))
-        })
-    },
+    GetExpenses: (req, callback) => {
 
-    GetExpensesThisMonth: (callback) => { // from to should come from frontend as parameters
+        let startDate = req.query.startDate
+        let endDate = req.query.endDate
 
-        const presentDay = moment()
-        const sameDayLastMonth = moment().subtract(1, 'months')
-
-        const startKey = `${sameDayLastMonth.format('YYYY')}-${sameDayLastMonth.format('MM')}-${sameDayLastMonth.daysInMonth()}T23:59:59.000Z`
-        const endKey = `${presentDay.format('YYYY')}-${presentDay.format('MM')}-${presentDay.daysInMonth()}T23:59:59.000Z`
-
-        Expense.find({'created':{'$gte':startKey,'$lt':endKey}}, (err, expenses) => {
-            if (err) return callback(err, null)
-            callback(null, ModelMapper.MapExpenses(expenses))
-        })
-
+        if (startDate != null && endDate != null) {
+            Expense.find({ 'created': { '$gte': startDate, '$lt': endDate } }, (err, expenses) => {
+                if (err) return callback(err, null)
+                callback(null, ModelMapper.MapExpenses(expenses))
+            })
+        }
+        else {
+            Expense.find((err, expenses) => {
+                if (err) return callback(err, null)
+                callback(null, ModelMapper.MapExpenses(expenses))
+            })
+        }
     },
 
     GetExpenseById: (req, callback) => {

@@ -10,7 +10,7 @@ module.exports = (router) => {
     router.route('/expenses')
 
         .get((req, res) => {
-            ExpensesRepository.GetAllExpenses((err, expenses) => {
+            ExpensesRepository.GetExpenses(req, (err, expenses) => {
                 if (err) res.send(err)
                 res.json(expenses)
             })
@@ -21,15 +21,6 @@ module.exports = (router) => {
                 if (err) res.send(err)
                 res.json(message)
             } )
-        })
-
-    router.route('/expenses-this-month')
-
-        .get((req, res) => {
-            ExpensesRepository.GetExpensesThisMonth((err, expenses) => {
-                if (err) res.send(err)
-                res.json(expenses)
-            })
         })
 
     router.route('/expenses/:expense_id')
