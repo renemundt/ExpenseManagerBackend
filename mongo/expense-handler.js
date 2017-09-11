@@ -4,46 +4,48 @@ module.exports = (router) => {
 
     router.use((req, res, next) => {
         console.log('route: ', req.originalUrl)
+        res.header('Access-Control-Allow-Origin', '*')
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+        res.header('Access-Control-Allow-Headers', 'Content-Type')
         next()
     })
 
     router.route('/expenses')
 
         .get((req, res) => {
-            ExpensesRepository.GetExpenses(req, (err, expenses) => {
-                if (err) res.send(err)
-                res.json(expenses)
+            ExpensesRepository.GetExpenses(req, (err, result) => {
+                sendResult(res, err, result)
             })
         })
 
         .post((req, res) => {
-            ExpensesRepository.CreateExpense(req, (err, message) => {
-                if (err) res.send(err)
-                res.json(message)
-            } )
+            ExpensesRepository.CreateExpense(req, (err, result) => {
+                sendResult(res, err, result)
+            })
         })
 
     router.route('/expenses/:expense_id')
 
         .get((req, res) => {
-            ExpensesRepository.GetExpenseById(req, (err, expense) => {
-                if (err) res.send(err)
-                res.json(expense)
+            ExpensesRepository.GetExpenseById(req, (err, result) => {
+                sendResult(res, err, result)
             })
         })
 
         .put((req, res) => {
-            ExpensesRepository.UpdateExpense(req, (err, message) => {
-                if (err) res.send(err)
-                res.json(message)
+            ExpensesRepository.UpdateExpense(req, (err, result) => {
+                sendResult(res, err, result)
             })
         })
 
         .delete((req, res) => {
-            ExpensesRepository.DeleteExpense(req, (err, message) => {
-                if (err) res.send(err)
-                res.json(message)
+            ExpensesRepository.DeleteExpense(req, (err, result) => {
+                sendResult(res, err, result)
             })
         })
+}
 
+function sendResult (res, err, result) {
+    if (err) res.send(err)
+    res.json(result)
 }
