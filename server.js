@@ -1,7 +1,7 @@
 var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
-var expenseHandler = require('./mongo/expense-handler')
+var expenseHandler = require('./expense-handler')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())

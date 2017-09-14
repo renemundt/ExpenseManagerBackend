@@ -1,4 +1,4 @@
-var ExpensesRepository = require('./expenses-repository')
+var ExpensesRepository = require('./mongo/expenses-repository')
 
 module.exports = (router) => {
 
