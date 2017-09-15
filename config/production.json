@@ -1,0 +1,11 @@
+{
+    "active-data-store": "mongo",
+    "data-store": {
+        "mongo": {
+            "url": "mongodb://em_user:pwd4Mlab@ds119524.mlab.com:19524/expense-manager"
+        },
+        "couch-db": {
+            "url": "https://renemundt.cloudant.com/expensemanager"
+        }
+    }
+}

@@ -1,4 +1,5 @@
-var ExpensesRepository = require('./mongo/expenses-repository')
+var ExpensesMongoRepository = require('./mongo/expenses-mongo-repository')
+// var ExpensesCouchRepository = require('./mongo/expenses-couch-repository')
 
 module.exports = (router) => {
 
@@ -10,16 +11,19 @@ module.exports = (router) => {
         next()
     })
 
+    let activeDataStore = require('config').get('active-data-store');
+    let expenseRepository = activeDataStore == 'mongo' ? ExpensesMongoRepository : null
+
     router.route('/expenses')
 
         .get((req, res) => {
-            ExpensesRepository.GetExpenses(req, (err, result) => {
+            expenseRepository.GetExpenses(req, (err, result) => {
                 sendResult(res, err, result)
             })
         })
 
         .post((req, res) => {
-            ExpensesRepository.CreateExpense(req, (err, result) => {
+            expenseRepository.CreateExpense(req, (err, result) => {
                 sendResult(res, err, result)
             })
         })
@@ -27,19 +31,19 @@ module.exports = (router) => {
     router.route('/expenses/:expense_id')
 
         .get((req, res) => {
-            ExpensesRepository.GetExpenseById(req, (err, result) => {
+            expenseRepository.GetExpenseById(req, (err, result) => {
                 sendResult(res, err, result)
             })
         })
 
         .put((req, res) => {
-            ExpensesRepository.UpdateExpense(req, (err, result) => {
+            expenseRepository.UpdateExpense(req, (err, result) => {
                 sendResult(res, err, result)
             })
         })
 
         .delete((req, res) => {
-            ExpensesRepository.DeleteExpense(req, (err, result) => {
+            expenseRepository.DeleteExpense(req, (err, result) => {
                 sendResult(res, err, result)
             })
         })

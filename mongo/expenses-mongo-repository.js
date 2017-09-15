@@ -7,7 +7,8 @@ var ModelMapper = require('./model-mapper')
 mongoose.Promise = require('bluebird')
 
 // mongoose.connect('mongodb://em_user:pwd4Mlab@ds119524.mlab.com:19524/expense-manager')
-mongoose.connect('mongodb://localhost/expense-manager')
+let connectionString = require('config').get('data-store.mongo.url');
+mongoose.connect(connectionString)
 
 var db = mongoose.connection
 
