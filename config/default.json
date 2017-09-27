@@ -1,10 +1,10 @@
 {
-    "active-data-store": "mongo",
+    "active-data-store": "couch",
     "data-store": {
         "mongo": {
             "url": "mongodb://localhost/expense-manager"
         },
-        "couch-db": {
+        "couch": {
             "url": "http://localhost:5984/expensemanager"
         }
     }

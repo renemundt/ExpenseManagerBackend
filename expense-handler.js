@@ -1,6 +1,3 @@
-var ExpensesMongoRepository = require('./mongo/expenses-mongo-repository')
-// var ExpensesCouchRepository = require('./mongo/expenses-couch-repository')
-
 module.exports = (router) => {
 
     router.use((req, res, next) => {
@@ -12,7 +9,8 @@ module.exports = (router) => {
     })
 
     let activeDataStore = require('config').get('active-data-store');
-    let expenseRepository = activeDataStore == 'mongo' ? ExpensesMongoRepository : null
+
+    let expenseRepository = activeDataStore == 'mongo' ? require('./mongo/expenses-mongo-repository') : require('./couch/expenses-couch-repository')
 
     router.route('/expenses')
 
