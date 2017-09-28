@@ -50,6 +50,7 @@ module.exports = {
         expense.created = new Date()
         expense.amount = req.body.amount
         expense.store = req.body.store
+        expense.timeOfPurchase = req.body.timeOfPurchase
         expense.profile.id = 'xxxxxx'
         expense.profile.givenName = 'René Mundt'
 
@@ -65,7 +66,8 @@ module.exports = {
             expense.updated = new Date()
             expense.amount = req.body.amount
             expense.store = req.body.store
-
+            expene.timeOfPurchase = req.body.timeOfPurchase
+            
             expense.save((err) => {
                 if (err) return callback(err, null)
                 callback(null, { message: 'Expense updated' })

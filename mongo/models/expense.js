@@ -4,9 +4,10 @@ var Schema = mongoose.Schema
 
 var ExpenseSchema = new Schema({
     amount: Number,
-    created: Date,
-    updated: Date,
     store: String,
+    created: Date,
+    timeOfPurchase: Date,
+    updated: Date,
     profile: {
         id: String,
         givenName: String

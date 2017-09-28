@@ -9,6 +9,7 @@ module.exports = {
             id: expense._id,
             amount: expense.amount,
             store: expense.store,
+            timeOfPurchase: expense.timeOfPurchase,
             created: expense.created,
             updated: expense.update,
             profile: profile = {
