@@ -3,3 +3,6 @@ heroku open
 
 git push -u origin master
 git push heroku master
+
+npm run prod
+npm run dev
