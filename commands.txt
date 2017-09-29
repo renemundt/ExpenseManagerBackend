@@ -1,8 +1,8 @@
 heroku ps:scale web=1
 heroku open
 
-git push -u origin master
-git push heroku master
+git push -u origin master - ordinary git push
+git push heroku master - push to heroku
 
 npm run prod
 npm run dev
