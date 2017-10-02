@@ -60,28 +60,13 @@ module.exports = {
         })
     },
 
-    // CreateExpense: (req, callback) => {
-    //     var expense = new Expense()
-    //     expense.created = new Date()
-    //     expense.amount = req.body.amount
-    //     expense.store = req.body.store
-    //     expense.timeOfPurchase = req.body.timeOfPurchase
-    //     expense.profile.id = 'xxxxxx'
-    //     expense.profile.givenName = 'René Mundt'
-
-    //     expense.save((err) => {
-    //         if (err) return callback(err, null)
-    //         callback(null, { message: 'Expense created' })
-    //     })
-    // },
-
     UpdateExpense: (req, callback) => {
         Expense.findById(req.params.expense_id, (err, expense) => {
             if (err) return callback(err, null)
             expense.updated = new Date()
             expense.amount = req.body.amount
             expense.store = req.body.store
-            expene.timeOfPurchase = req.body.timeOfPurchase
+            expense.timeOfPurchase = req.body.timeOfPurchase
             
             expense.save((err) => {
                 if (err) return callback(err, null)

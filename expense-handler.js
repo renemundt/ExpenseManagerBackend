@@ -49,5 +49,5 @@ module.exports = (router) => {
 
 function sendResult (res, err, result) {
     if (err) res.send(err)
-    res.json(result)
+    else res.json(result)
 }
