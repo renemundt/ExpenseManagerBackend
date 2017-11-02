@@ -17,7 +17,8 @@ const authCheck = jwt({
         jwksUri: "https://renemundt.eu.auth0.com/.well-known/jwks.json"
     }),
     // This is the identifier we set when we created the API
-    audience: 'http://localhost:8666/api',
+    audience: 'ExpenseManagerFrontends',
+    // audience: 'http://localhost:8666/api',
     issuer: "https://renemundt.eu.auth0.com/",
     algorithms: ['RS256']
 })
