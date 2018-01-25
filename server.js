@@ -22,7 +22,12 @@ const authCheck = jwt({
     issuer: "https://renemundt.eu.auth0.com/",
     algorithms: ['RS256']
 })
-
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8081')
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    next()
+  })
 app.use(authCheck)
 // app.use(authCheck, scopeCheck)
 
