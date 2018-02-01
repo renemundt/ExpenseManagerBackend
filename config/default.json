@@ -1,11 +1,14 @@
 {
-    "active-data-store": "mongo",
+    "active-data-store": "lowdb",
     "data-store": {
         "mongo": {
             "url": "mongodb://localhost/expense-manager"
         },
         "couch": {
             "url": "http://localhost:5984/expensemanager"
+        },
+        "lowdb": {
+            "url": "none"
         }
     }
 }

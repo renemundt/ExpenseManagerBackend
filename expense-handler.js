@@ -7,7 +7,19 @@ module.exports = (router) => {
 
     let activeDataStore = require('config').get('active-data-store');
 
-    let expenseRepository = activeDataStore == 'mongo' ? require('./mongo/expenses-mongo-repository') : require('./couch/expenses-couch-repository')
+    let expenseRepository
+
+    switch(activeDataStore){
+        case 'mongo':
+            expenseRepository = require('./mongo/expenses-mongo-repository')
+            break
+        case 'couch':
+            expenseRepository = require('./couch/expenses-couch-repository')
+            break
+        default:
+            expenseRepository = require('./lowdb/lowdb-repository')
+            break
+    }
 
     router.route('/expenses')
 
