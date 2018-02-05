@@ -54,6 +54,12 @@ module.exports = (router) => {
                 sendResult(res, err, result)
             })
         })
+
+    router.route('/health')
+
+        .get((req, res) => {
+            res.send('All is ok!')
+        })
 }
 
 function sendResult(res, err, result) {
