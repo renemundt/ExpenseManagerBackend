@@ -3,7 +3,7 @@
     "data-store": {
         "mongo": {
             "mongo_lab_url": "mongodb://em_user:pwd4Mlab@ds119524.mlab.com:19524/expense-manager",
-            "url": "mongodb://expensemanagercosmosdb:T3gxxqrpRkYNjfjXIe0ouNQ2JzOi7OGK0csTe5HVLDJTOchw428oYXmJBbAemXCTcKHbJu4j9gwQgxiBUTzf0g==@expensemanagercosmosdb.documents.azure.com:10255/expenses-manager?ssl=true"
+            "url": "mongodb://expensemanagercosmosdb:T3gxxqrpRkYNjfjXIe0ouNQ2JzOi7OGK0csTe5HVLDJTOchw428oYXmJBbAemXCTcKHbJu4j9gwQgxiBUTzf0g==@expensemanagercosmosdb.documents.azure.com:10255?ssl=true"
         },
         "couch": {
             "url": "https://renemundt.cloudant.com/expensemanager"
