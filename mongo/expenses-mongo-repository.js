@@ -1,37 +1,34 @@
-var mongoose = require('mongoose')
-var moment = require('moment')
-var Expense = require('./models/expense')
-var Expense = require('./models/expense')
+var MongoClient = require('mongodb').MongoClient
+var ObjectId = require('mongodb').ObjectID
 var ModelMapper = require('./model-mapper')
+var moment = require('moment')
 
-mongoose.Promise = require('bluebird')
-
-let connectionString = require('config').get('data-store.mongo.url');
+let connectionString = require('config').get('data-store.mongo.url')
 console.log('connectionString', connectionString)
-mongoose.connect(connectionString)
+var MongoClient = require('mongodb').MongoClient
+var db
 
-var db = mongoose.connection
-
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', () => {
-    // we are connected
+// Initialize connection once
+MongoClient.connect(connectionString, function (err, client) {
+    if (err) throw err
+    db = client.db('expense-manager')
 })
 
 module.exports = {
 
     GetExpenses: (req, callback) => {
 
-        let startDate = req.query.startDate
-        let endDate = req.query.endDate
+        let startDate = moment(req.query.startDate).toDate()
+        let endDate = moment(req.query.endDate).toDate()
 
         if (startDate != null && endDate != null) {
-            Expense.find({ 'created': { '$gte': startDate, '$lt': endDate } }, (err, expenses) => {
-                if (err) return callback(err, null)
-                callback(null, ModelMapper.MapExpenses(expenses))
-            })
-        }
-        else {
-            Expense.find((err, expenses) => {
+            db.collection('expenses').find(
+                { "timeOfPurchase": { "$gte": startDate, "$lt": endDate } }).toArray((err, expenses) => {
+                    if (err) return callback(err, null)
+                    callback(null, ModelMapper.MapExpenses(expenses))
+                })
+        } else {
+            db.collection('expenses').find().toArray((err, expenses) => {
                 if (err) return callback(err, null)
                 callback(null, ModelMapper.MapExpenses(expenses))
             })
@@ -39,47 +36,52 @@ module.exports = {
     },
 
     GetExpenseById: (req, callback) => {
-        Expense.findById(req.params.expense_id, (err, expense) => {
+        db.collection('expenses').findOne({"_id": ObjectId(req.params.expense_id)}, (err, expense) => {
             if (err) return callback(err, null)
             callback(ModelMapper.MapExpense(expense))
         })
     },
 
     CreateExpense: (req, callback) => {
-        var expense = new Expense()
-        expense.created = new Date()
-        expense.amount = req.body.amount
-        expense.store = req.body.store
-        expense.timeOfPurchase = req.body.timeOfPurchase
-        expense.profile.id = req.body.profile.id
-        expense.profile.givenName = req.body.profile.givenName
+        req.body.created = new Date()
+        req.body.amount = Number(req.body.amount)
+        req.body.timeOfPurchase = moment.parseZone(req.body.timeOfPurchase).toDate()
+        const expense = req.body
 
-        expense.save((err) => {
-            if (err) return callback(err, null)
-            callback(null, { message: 'Expense created' })
-        })
+        db.collection('expenses').insertOne(expense,
+            (err, result) => {
+                if (err) return callback(err, null)
+                callback(null, { message: 'Expense created' });
+            }
+        )
     },
 
     UpdateExpense: (req, callback) => {
-        Expense.findById(req.params.expense_id, (err, expense) => {
-            if (err) return callback(err, null)
-            expense.updated = new Date()
-            expense.amount = req.body.amount
-            expense.store = req.body.store
-            expense.timeOfPurchase = req.body.timeOfPurchase
-            
-            expense.save((err) => {
+        db.collection('expenses').updateOne(
+            { "_id": ObjectId(req.body.id) },
+            {
+                $set: {
+                    "amount": Number(req.body.amount),
+                    "store": req.body.store,
+                    "timeOfPurchase": moment.parseZone(req.body.timeOfPurchase).toDate(),
+                    "updated": new Date()
+                }
+            }, (err, results) => {
                 if (err) return callback(err, null)
-                callback(null, { message: 'Expense updated' })
-            })
-        })
+                callback(null, { message: 'Expense updated' });
+            }
+        )
     },
 
     DeleteExpense: (req, callback) => {
-        Expense.remove({ _id: req.params.expense_id }, (err) => {
-            if (err) return callback(err, null)
-            callback(null, { message: 'Expense deleted' })
-        })
+        db.collection('expenses').deleteMany(
+            {
+                "_id": ObjectId(req.params.expense_id)
+            }, (err, results) => {
+                if (err) return callback(err, null)
+                callback(null, { message: 'Expense deleted' })
+            }
+        )
     }
 
 }
