@@ -2,7 +2,10 @@
     "active-data-store": "mongo",
     "data-store": {
         "mongo": {
-            "url": "mongodb://localhost"
+            "url_local_disabled": "mongodb://localhost",
+            "url": "expensemanagercosmosdb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb",
+            "user": "expensemanagercosmosdb",
+            "password": "bVCYlcjXK2LheeZZXZDA1QwqfvHsGA3afQG35PzKx7AaOGw0xv6jj0APDhnyi7AY8GlmeoXyYR1BJBAnUs9pgA=="
         },
         "couch": {
             "url": "http://localhost:5984/expensemanager"

@@ -3,15 +3,20 @@ var ObjectId = require('mongodb').ObjectID
 var ModelMapper = require('./model-mapper')
 var moment = require('moment')
 
-let connectionString = require('config').get('data-store.mongo.url')
-console.log('connectionString', connectionString)
-var MongoClient = require('mongodb').MongoClient
+let url = require('config').get('data-store.mongo.url')
+let user = require('config').get('data-store.mongo.user')
+let password = encodeURIComponent(require('config').get('data-store.mongo.password'))
 var db
 
-// Initialize connection once
-MongoClient.connect(connectionString, function (err, client) {
+const fuckingPassword = encodeURIComponent('bVCYlcjXK2LheeZZXZDA1QwqfvHsGA3afQG35PzKx7AaOGw0xv6jj0APDhnyi7AY8GlmeoXyYR1BJBAnUs9pgA==')
+let  fuckingUrl ='mongodb://expensemanagercosmosdb:' + fuckingPassword +'@expensemanagercosmosdb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb'
+
+const mongoUrl = `mongodb://${user}:${password}@${url}`
+
+MongoClient.connect(mongoUrl, function (err, client) {
     if (err) throw err
     db = client.db('expense-manager')
+    console.log('Connected')
 })
 
 module.exports = {
@@ -50,7 +55,7 @@ module.exports = {
 
         db.collection('expenses').insertOne(expense,
             (err, result) => {
-                if (err) return callback(err, null)
+                if (err) { return callback(err, null); console.log('err creating expense', err)}
                 callback(null, { message: 'Expense created' });
             }
         )
