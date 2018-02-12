@@ -1,7 +1,7 @@
 var request = require('request')
 var modelMapper = require('./couch-model-mapper')
 
-let baseUrl = require('config').get('data-store.couch.url')
+let baseUrl = process.env.EM_COUCH_URL
 
 module.exports = {
 

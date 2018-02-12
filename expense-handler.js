@@ -5,7 +5,7 @@ module.exports = (router) => {
         next()
     })
 
-    let activeDataStore = require('config').get('active-data-store');
+    let activeDataStore = process.env.EM_STORE
 
     let expenseRepository
 
@@ -16,8 +16,11 @@ module.exports = (router) => {
         case 'couch':
             expenseRepository = require('./couch/expenses-couch-repository')
             break
-        default:
+        case 'lowdb':
             expenseRepository = require('./lowdb/lowdb-repository')
+            break
+        default:
+            throw `NO OR WRONG DATA STORE TYPE PROVIDED: ${activeDataStore}`
             break
     }
 

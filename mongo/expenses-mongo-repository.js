@@ -3,13 +3,10 @@ var ObjectId = require('mongodb').ObjectID
 var ModelMapper = require('./model-mapper')
 var moment = require('moment')
 
-let url = require('config').get('data-store.mongo.url')
-let user = require('config').get('data-store.mongo.user')
-let password = encodeURIComponent(require('config').get('data-store.mongo.password'))
+let url = process.env.EM_MONGO_URL
+let user = process.env.EM_MONGO_USER
+let password = encodeURIComponent(process.env.EM_MONGO_PASSWORD)
 var db
-
-const fuckingPassword = encodeURIComponent('bVCYlcjXK2LheeZZXZDA1QwqfvHsGA3afQG35PzKx7AaOGw0xv6jj0APDhnyi7AY8GlmeoXyYR1BJBAnUs9pgA==')
-let  fuckingUrl ='mongodb://expensemanagercosmosdb:' + fuckingPassword +'@expensemanagercosmosdb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb'
 
 const mongoUrl = `mongodb://${user}:${password}@${url}`
 
@@ -22,6 +19,8 @@ MongoClient.connect(mongoUrl, function (err, client) {
 module.exports = {
 
     GetExpenses: (req, callback) => {
+
+        console.log('process.env.EM_STORE', process.env.EM_STORE)
 
         let startDate = moment(req.query.startDate).toDate()
         let endDate = moment(req.query.endDate).toDate()

@@ -2,6 +2,7 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 var expenseHandler = require('./expense-handler')
+require('dotenv').config()
 
 const jwt = require('express-jwt')
 const jwks = require('jwks-rsa')
