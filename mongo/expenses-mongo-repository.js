@@ -20,8 +20,6 @@ module.exports = {
 
     GetExpenses: (req, callback) => {
 
-        console.log('process.env.EM_STORE', process.env.EM_STORE)
-
         let startDate = moment(req.query.startDate).toDate()
         let endDate = moment(req.query.endDate).toDate()
 
