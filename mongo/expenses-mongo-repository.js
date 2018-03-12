@@ -8,7 +8,11 @@ let user = process.env.EM_MONGO_USER
 let password = encodeURIComponent(process.env.EM_MONGO_PASSWORD)
 var db
 
-const mongoUrl = `mongodb://${user}:${password}@${url}`
+let mongoUrl = `mongodb://${url}`    
+
+if (user && password) {
+    mongoUrl = `mongodb://${user}:${password}@${url}`
+}
 
 MongoClient.connect(mongoUrl, function (err, client) {
     if (err) throw err
