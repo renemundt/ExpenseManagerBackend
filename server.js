@@ -1,9 +1,9 @@
 var express = require('express')
 var http = require('http')
-var WebSocket = require('ws')
 var app = express()
 var bodyParser = require('body-parser')
 var expenseHandler = require('./expense-handler')
+var expenseNotifier = require('./expense-notifier')
 require('dotenv').config()
 
 const jwt = require('express-jwt')
@@ -42,34 +42,10 @@ app.use('/api', router)
 
 const server = http.createServer(app)
 
-const wss = new WebSocket.Server({ server })
-
-wss.on('connection', (ws) => {
-
-    //connection is up, let's add a simple simple event
-    ws.on('message', (message) => {
-
-        //log the received message and send it back to the client
-        console.log('received: %s', message);
-
-        wss.clients
-        .forEach(client => {
-            if (client != ws) {
-                client.send(`Hello, broadcast message -> ${message}`);
-            }    
-        });
-    });
-
-    //send immediatly a feedback to the incoming connection    
-    ws.send('Hi there, I am a WebSocket server');
-});
+expenseNotifier(server)
 
 var port = process.env.PORT || 8666
 
 server.listen(port, () => {
     console.log(`Server started on port ${server.address().port} :)`);
 })
-
-// var port = process.env.PORT || 8666
-// app.listen(port)
-
