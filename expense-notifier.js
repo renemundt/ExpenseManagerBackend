@@ -15,13 +15,13 @@ module.exports = (server) => {
             wss.clients
             .forEach(client => {
                 if (client != ws) {
-                    client.send(`Hello, broadcast message -> ${message}`)
+                    client.send(`An expense with amount ${message} has changed, please update`)
                 }    
             })
         })
     
         //send immediatly a feedback to the incoming connection    
-        ws.send('Hi there, I am a WebSocket server')
+        ws.send(`Must update`)
     })
     
 }
